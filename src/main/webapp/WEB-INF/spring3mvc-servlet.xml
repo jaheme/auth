@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd" default-autowire="byName">
+			<!-- default-autowire="byName"，约定优于配置 -->
+	
+	<!-- 配置静态资源，直接映射到对应的文件夹，不被DispatcherServlet处理，3.04新增功能  -->
+	<!--<mvc:resources mapping="/ext/**" location="/ext/"/>
+	<mvc:resources mapping="/image/**" location="/image/"/>
+	<mvc:resources mapping="/images/**" location="/images/"/>
+	<mvc:resources mapping="/js/**" location="/js/"/>
+	<mvc:resources mapping="/css/**" location="/css/"/>-->
+
+	<!-- 
+	①：对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 
+	-->
+	<context:component-scan base-package="com.base.*.web" />
+
+	<!-- 
+	②：启动Spring MVC的注解功能，完成请求和注解POJO的映射，添加拦截器，类级别的处理器映射 
+	-->
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <bean class="com.base.util.MyHandlerInterceptor"/>
+            </list>
+        </property>
+	</bean>
+	
+	<!-- 
+	②：启动Spring MVC的注解功能，完成请求和注解POJO的映射，
+	配置一个基于注解的定制的WebBindingInitializer，解决日期转换问题，方法级别的处理器映射
+	-->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	    <property name="cacheSeconds" value="0" />
+	    <property name="webBindingInitializer">
+	        <bean class="com.base.util.MyWebBinding" />
+	    </property>
+	    <!-- 配置一下对json数据的转换 -->
+	    <property name="messageConverters">
+	    	<list>
+	    		<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+	    	</list>
+	    </property>
+	</bean>
+	
+
+	
+	<!-- 
+	③：对模型视图名称的解析，即在模型视图名称添加前后缀
+	InternalResourceViewResolver默认的就是JstlView所以这里就不用配置viewClass了 
+	-->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<bean id="multipartResolver"  
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >  
+        <property name="maxUploadSize">  
+            <value>104857600</value>  
+        </property>  
+        <property name="maxInMemorySize">  
+            <value>4096</value>  
+        </property>  
+    </bean>  
+	
+</beans> 

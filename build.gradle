@@ -1,0 +1,48 @@
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'idea'
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile (
+        "org.slf4j:slf4j-api:1.7.7",
+        "org.slf4j:jcl-over-slf4j:1.7.7",
+        "ch.qos.logback:logback-classic:1.1.2",
+    	"javax.servlet:javax.servlet-api:3.1.0",
+    	"javax.servlet:jstl:1.2",
+    	"commons-fileupload:commons-fileupload:1.3",
+    	"org.springframework:spring-aop:${SpringVersion}",
+    	"org.springframework:spring-aspects:${SpringVersion}",
+    	"org.springframework:spring-beans:${SpringVersion}",
+    	"org.springframework:spring-context-support:${SpringVersion}",
+    	"org.springframework:spring-context:${SpringVersion}",
+    	"org.springframework:spring-oxm:${SpringVersion}",
+    	"org.springframework:spring-orm:${SpringVersion}",
+    	"org.springframework:spring-web:${SpringVersion}",
+    	"org.springframework:spring-webmvc:${SpringVersion}",
+    	"org.springframework:spring-tx:${SpringVersion}",
+    	"com.fasterxml.jackson.core:jackson-core:2.3.0",
+    	"com.fasterxml.jackson.core:jackson-databind:2.3.0",
+    	"com.fasterxml.jackson.core:jackson-annotations:2.3.0",
+    	"javax.xml.bind:jaxb-api:2.2.12",
+    	"com.thoughtworks.xstream:xstream:1.4.7",
+    	"org.hibernate:hibernate-core:4.2.0.Final",
+    	"org.hibernate:hibernate-ehcache:4.2.0.Final",
+    	"org.hibernate:hibernate-c3p0:4.2.0.Final",
+    	"org.hibernate:hibernate-proxool:4.2.0.Final",
+    	"mysql:mysql-connector-java:5.1.24"
+    )
+}
+
+
+task copyHbm(type: Copy){
+	from 'src/main/java/com/base/model'
+	into 'build/classes/main/com/base/model'
+	exclude '**/*.java'
+}

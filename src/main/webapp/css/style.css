@@ -1,0 +1,155 @@
+@CHARSET "UTF-8";
+
+html,body {
+	height: 100%
+}
+
+body {
+	font-family: Verdana, Arial, 宋体, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	font-size: 11px;
+}
+
+p {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 11px;
+	color: #006633;
+	background-color: #FFFFCC;
+	line-height: 24px;
+	text-indent: 2em;
+}
+
+.menuDiv {
+	background-color: #FFFFCC;
+	margin: 5, 5, 5, 5;
+}
+
+.title {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 11px;
+}
+
+p:first-line {
+	font-variant: small-caps
+}
+
+a.button:active {
+	background-position: bottom right;
+	color: #000;
+	outline: none; /* hide dotted outline in Firefox */
+}
+
+a.button:active span {
+	background-position: bottom left;
+	padding: 6px 0 4px 18px; /* push text down 1px */
+}
+.tablecolor{
+	background-color: #FFFFCC;
+}
+.linetable {
+	background: #c2c5cc;
+	padding-left: 20px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 11px;
+}
+.title{
+	color: #000000;
+	font-size: 11px;
+}
+.linetitle {
+	background: #e7edf7;
+	color: #000000;
+	padding-left: 5px;
+}
+
+.line0 {
+	background: #ffffff;
+	color: #000000;
+	padding-left: 5px;
+}
+.line1 {
+	background: #FFFFCC;
+	color: #000000;
+	padding-left: 5px;
+}
+#top-logo{
+height:100px;
+background-color: #03A8F6;
+}
+#logo{
+float:left;
+width:65%;
+height:100px;
+padding-top:37px;
+padding-left:10px;
+margin:0px;
+}
+#banner{
+float:left;
+width:33%;
+height:100px;
+line-height:30px;
+text-align:right;
+padding-top:10px;
+padding-left:10px;
+margin:0px;
+
+}
+.add {
+    background-image:url(../images/add.gif) !important;
+}
+.option {
+    background-image:url(../images/plugin.gif) !important;
+}
+.remove {
+    background-image:url(../images/delete.gif) !important;
+}
+.search{
+	 background-image:url(../images/search.png) !important;
+}
+.modify{
+	 background-image:url(../images/edit.gif) !important;
+}
+.input{
+	background-image:url(../images/arrow_up.png) !important;
+}
+.output{
+	background-image:url(../images/arrow_down.png) !important;
+}
+
+
+#loading-mask{
+    background-color:white;
+    height:100%;
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    z-index:20000;
+}
+#loading{
+    height:auto;
+    position:absolute;
+    left:45%;
+    top:40%;
+    padding:2px;
+    z-index:20001;
+}
+#loading a {
+    color:#225588;
+}
+#loading .loading-indicator{
+    background:white;
+    color:#444;
+    font:bold 13px Helvetica, Arial, sans-serif;
+    height:auto;
+    margin:0;
+    padding:10px;
+}
+#loading-msg {
+    font-size: 10px;
+    font-weight: normal;
+}

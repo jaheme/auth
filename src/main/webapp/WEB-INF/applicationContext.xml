@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd" default-autowire="byName">
+	   
+	   <!-- 注意上面的default-autowire="byName"，如果没有这个声明那么HibernateDaoSupport中的sessionFactory不会被注入 -->
+	   <!-- 约定优于配置，约定优于配置 -->
+		
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!--<property name="packagesToScan">
+			<list>
+            	<value>classpath:com/base/model</value>
+         	</list>
+		</property>-->
+		<!-- pojo类及映射文件所在的包-->
+       <property name="mappingDirectoryLocations">
+         <list>
+            <value>classpath:com/base/model</value>
+         </list>
+       </property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.SQLServerDialect
+				</prop>
+				<prop key="hibernate.show_sql">
+					true
+				</prop>
+				<prop key="hibernate.format_sql">
+					false
+				</prop>				
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 自动扫描组件，这里要把web下面的 controller去除.
+		他们是在spring3-servlet.xml中配置的，如果不去除或不正确配置会影响事务管理(连接也不会自动关闭)的。-->
+	<context:component-scan base-package="com.base">
+		<context:exclude-filter type="regex" expression="com.base.*.web.*"/>
+	</context:component-scan>
+	
+	<!-- 下面是配置声明式事务管理的，个人感觉比用注解管理事务要简单方便 -->
+	<bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+     
+	<aop:config>
+		<aop:advisor pointcut="execution(* com.base.*.service.*Service.*(..))" advice-ref="txAdvice"/>
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="query*" read-only="true"/>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="load*" read-only="true"/>
+			<tx:method name="*" rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<import resource="spring-pool.xml"/>
+	
+</beans>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+	<!-- 
+	默认的spring配置文件是在WEB-INF下的applicationContext.xml
+	Spring 容器启动监听器
+	 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- 强制进行编码转换,使用时页面编码声明和数据库连接编码声明都必须保持一致 -->
+	<filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>	
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 默认所对应的配置文件是WEB-INF下的{servlet-name}-servlet.xml -->
+	<servlet>
+		<servlet-name>spring3mvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring3mvc</servlet-name>
+		<!-- 配置匹配的URL,这里您可以配置成"/*.do" -->
+		<url-pattern>/do/*</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<!--<welcome-file>/WEB-INF/jsp/test/index.jsp</welcome-file> -->
+		<!-- <welcome-file>/login.jsp</welcome-file> -->
+		<welcome-file>/login.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<!-- 设置session过期时间 -->
+	<session-config>
+		<session-timeout>240</session-timeout>
+	</session-config>
+ <!-- 
+  	<filter>
+    	<filter-name>hibernateFilter</filter-name>
+    	<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+    	<init-param>
+      		<param-name>sessionFactoryBeanName</param-name>
+      		<param-value>sessionFactory</param-value>
+    	</init-param>
+    	<init-param>
+	      <param-name>singleSession</param-name>
+	      <param-value>false</param-value>
+	    </init-param>
+  	</filter>
+  	<filter-mapping>
+    	<filter-name>hibernateFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+  	</filter-mapping> -->
+  	
+     <servlet>       <!-- 数据库连接监控器 -->   
+      	<servlet-name>proxoolAdmin</servlet-name>    
+      	<servlet-class>org.logicalcobwebs.proxool.admin.servlet.AdminServlet</servlet-class>    
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>proxoolAdmin</servlet-name>
+        <url-pattern>/proxoolAdmin</url-pattern>
+    </servlet-mapping>
+  	<!-- 配置受保护域，只有Tomcat管理员才能察看连接池的信息 
+	<security-constraint>  
+	  	<web-resource-collection>  
+	      	<web-resource-name>proxool</web-resource-name>   
+	      	<url-pattern>/admin</url-pattern>  
+	  	</web-resource-collection>  
+	  	<auth-constraint>  
+	     	<role-name>manager</role-name>   
+	     </auth-constraint>  
+	</security-constraint>  
+ 	<login-config>  
+     	<auth-method>BASIC</auth-method>   
+     	<realm-name>proxool manager Application</realm-name>   
+  	</login-config>  
+  	<security-role>  
+    	<description>The role that is required to log in to the Manager Application</description>   
+     	<role-name>manager</role-name>   
+ 	</security-role>-->
+	 	
+  	<!--  -->
+<!--  <context-param>-->
+<!--	  <param-name>cab-config</param-name>-->
+<!--	  <param-value>/WEB-INF/cab-config.xml</param-value>-->
+<!--   </context-param>-->
+<!--   <listener>-->
+<!--  	  <listener-class>com.guet.base.extend.CabConfig</listener-class>-->
+<!--   </listener>-->
+  	
+  	
+</web-app>
